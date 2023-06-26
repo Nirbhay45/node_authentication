@@ -1,13 +1,11 @@
+// REQUIRING THE MODULES AND FILES
 const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/users_controller');
 const passport = require('passport');
 
 
-
-
-// router.get('/sign-in',usersController.signin);
-
+// ROUTER HANDLING AND PASSING THE WORK TO CONTROLLERS AND AUTHENTICATING WHEN REQUIRED
 router.post('/create', usersController.create);
 router.get('/signup',usersController.signup);
 router.get('/signin',usersController.signin);

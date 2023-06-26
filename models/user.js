@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-
+// USER SCHEMA FOR THE APP
 const authUserSchema = new mongoose.Schema({
   name: {
     type: String,

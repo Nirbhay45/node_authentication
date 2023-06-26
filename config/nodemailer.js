@@ -1,7 +1,9 @@
+// REQUIRING MODULES
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
 
+// SETTING UP TRANSPORTER FOR MAILER
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
@@ -13,6 +15,7 @@ let transporter = nodemailer.createTransport({
     }
 });
 
+// RENDERING THE TEMPLATE
 let renderTemplate = (data, relativePath) =>{
     let mailHTML;
     ejs.renderFile(

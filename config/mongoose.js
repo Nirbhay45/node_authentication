@@ -1,5 +1,7 @@
 // require the library
 const mongoose = require('mongoose');
+
+// IMPORTING FILES
 const CONSTANTS = require('../constants/constants');
 
 

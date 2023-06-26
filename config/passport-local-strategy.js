@@ -1,8 +1,9 @@
+// REQUIRING MODULES
 const passport = require('passport');
-
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
+// IMPORTING THE USER SCHEMA
 const User = require("../models/user");
 
 // authentication using passport
@@ -15,6 +16,7 @@ passport.use(new LocalStrategy({
         let user = await User.findOne({
             email: email
         });
+        // CHECKING THE PASSWORD HASH FOR A MATCH
         let password_matched = await bcrypt.compare(password, user.password);
         if(!user || !password_matched){
             req.flash('error', 'Invalid username/password');

@@ -1,3 +1,4 @@
+// REQUIRING FILES AND MODULES
 const express = require("express");
 const User = require('../models/user');
 const fs = require('fs');
@@ -51,9 +52,10 @@ module.exports.create = async function(req, res){
     let user = await User.findOne({email: req.body.email});
     if(!user){
         const {email, password, name} = req.body;
+        // HASING THE PASSWORD
         const hash = await bcrypt.hash(password, 10);
+
         const user = {email, name, password:hash};
-        console.log(email, hash, password, name);
         await User.create(user);
         req.flash('success', 'Signup Successfull');
         return res.redirect('/user/signin');
@@ -80,18 +82,19 @@ module.exports.destroySession = function(req, res){
     req.flash('success', 'You have logged out');
     return res.redirect('/user/signin');
 }
+
+// RENDERING THE RESET PAGE
 module.exports.reset =async function(req, res){
     if(!req.isAuthenticated()){
         return res.redirect('/user/login');
     }
-    //let user = await User.findById(req.params.id);
     return res.render(
         'reset',{
             id: req.user.id,
         }
     );
 }
-
+// HANDLING THE POST REQUEST FOR RESET PASSWORD
 module.exports.resetPassword =async function(req, res){
     let user = await User.findById(req.params.id);
     if(!user){
@@ -99,6 +102,7 @@ module.exports.resetPassword =async function(req, res){
         return res.redirect('/');
     }
     if(req.body.password==req.body.confirm_password){
+        // CREATING HASH FOR THE PASSWORD PROVIDED
         const hash = await bcrypt.hash(req.body.password, 10);
         const password = hash;
         user.password = password;
@@ -111,14 +115,18 @@ module.exports.resetPassword =async function(req, res){
         return res.redirect('back');
     }
 }
-
+// HANDELING THE POST REQUEST FOR FORGOT PASSWORD
 module.exports.forgotPassword = async function(req, res){
     let user = await User.findOne({email: req.body.email});
     if(user){
+        // GENERATING A RANDOM PASSWORD
         let password = crypto.randomBytes(20).toString('hex');
+        // HASHING THE CREATED PASSWORD TO STORE IN DB
         let hash = await bcrypt.hash(password, 10);
         user.password = hash;
         await user.save();
+
+        // SENDING RANDOMLY GENERATED PASSWORD TO THE USER ON MAIL
         nodemailer.resetPasswordMail(user.name,user.email, password);
         req.flash('success', "New password sent to you via email");
         return res.redirect('/user/signin');
