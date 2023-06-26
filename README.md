@@ -1,7 +1,7 @@
 # node_authentication
 A starter code for creating any new application
 
-## Highlights
+## ⚙️ Functionality
   - Signup with email
   - Signin with email
   - Sign Out
@@ -11,7 +11,7 @@ A starter code for creating any new application
   - Random Password generated is sent on user email, if user forget's his/her password.
   - Displayed Notification for user account handeling with details  
 
-## Details
+## 🧑‍💻 Getting started
 The server needs to be locally setup
   - Port 8000
   - Internet connectivity is a must for running this project, as Mongo Atlas is being used.
