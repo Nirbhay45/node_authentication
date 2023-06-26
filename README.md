@@ -14,6 +14,7 @@ A starter code for creating any new application
 ## Details
 The server needs to be locally setup
   - Port 8000
+  - Internet connectivity is a must for running this project, as Mongo Atlas is being used.
   - Visit 127.0.0.1:8000
   - Wait for mongodb database to connect
 
