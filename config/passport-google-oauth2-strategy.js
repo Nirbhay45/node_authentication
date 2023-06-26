@@ -13,7 +13,6 @@ passport.use(new googleStrategy({
     async function(accessToken, refreshToken, profile, done){
         const user = await User.findOne({ email: profile.emails[0].value });
         if(user){
-            req.flash('success', 'Logged in Successfully');
             console.log(user.name, user.email, user.password);
             return done(null, user);
         }else{
@@ -23,10 +22,8 @@ passport.use(new googleStrategy({
                 password: crypto.randomBytes(20).toString('hex')
             });
             if(user){
-                req.flash('success', 'Signed up Successfully');
                 return done(null, user);
             }else{
-                req.flash('error', 'Error in creating user');
                 console.log('error in creating user');
                     return;
             }

@@ -3,7 +3,19 @@ const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+const nodemailer = require("../mailers/reset_password");
 
+
+// render the reset password page
+module.exports.forgot = async function(req, res){
+    if(req.isAuthenticated()){
+        return res.redirect('/');
+    }
+    return res.render(
+        'forgot'
+    );
+}
 
 //render the sign up page
 module.exports.signup = async function(req, res){
@@ -98,6 +110,21 @@ module.exports.resetPassword =async function(req, res){
         req.flash('error', 'Password\'s Don\'t match.');
         return res.redirect('back');
     }
-    
+}
 
+module.exports.forgotPassword = async function(req, res){
+    let user = await User.findOne({email: req.body.email});
+    if(user){
+        let password = crypto.randomBytes(20).toString('hex');
+        let hash = await bcrypt.hash(password, 10);
+        user.password = hash;
+        await user.save();
+        nodemailer.resetPasswordMail(user.name,user.email, password);
+        req.flash('success', "New password sent to you via email");
+        return res.redirect('/user/signin');
+
+    }if(!user){
+        req.flash('error', "User not found");
+        return res.redirect('back');
+    }
 }

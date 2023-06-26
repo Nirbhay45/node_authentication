@@ -17,7 +17,9 @@ router.post('/createsession', passport.authenticate(
     ),usersController.createSession);
 router.get('/signout', usersController.destroySession);
 router.get('/reset/:id', passport.checkAuthentication, usersController.reset);
-router.post('/resetpassword/:id', usersController.resetPassword)
+router.post('/resetpassword/:id', usersController.resetPassword);
+router.get('/forgot', usersController.forgot);
+router.post('/forgot', usersController.forgotPassword);
 
 
 module.exports = router;
